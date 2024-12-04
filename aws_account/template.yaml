@@ -1,0 +1,45 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-aws-account
+  title: AWS Account Template
+  description: Create a new AWS account under an existing organiztion
+  tags:
+    - account
+    - aws
+spec:
+  owner: joshgavant_gmail.com
+  type: system
+
+  parameters:
+    - title: Provide information on this application
+      required:
+        - application_id
+        - owner
+        - organization
+        - size
+        - environments
+        - description
+      properties:
+        parent_account_id:
+          title: Parent Account ID
+          type: string
+          default: 048808157642
+        new_account_name:
+          title: New Account Name
+          type: string
+          description: Unique name of this application
+        new_account_email:
+          title: New Account Email
+          type: string
+          description: Email for owner of new account
+
+  steps:
+    - id: create-account
+      name: Create new AWS account
+      action: aws:cloudcontrol:create
+      input:
+        values:
+          account_id: ${{ paramaters.parent_account_id }}
+          typeName: "AWS::Organizations::Account"
+          desiredState: '{ "AccountName": "${{parameters.new_account_name}}", "Email": "${{parameters.new_account_email}}" }'
