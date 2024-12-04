@@ -9,7 +9,7 @@ metadata:
     - kubernetes
     - account
 spec:
-  owner: default/joshgavant_gmail.com
+  owner: user:default/joshgavant_gmail.com
   type: system
 
   parameters:

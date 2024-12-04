@@ -8,7 +8,7 @@ metadata:
     - account
     - aws
 spec:
-  owner: joshgavant_gmail.com
+  owner: user:default/joshgavant_gmail.com
   type: system
 
   parameters:
