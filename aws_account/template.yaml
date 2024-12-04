@@ -14,17 +14,14 @@ spec:
   parameters:
     - title: Provide information on this application
       required:
-        - application_id
-        - owner
-        - organization
-        - size
-        - environments
-        - description
+        - parent_account_id
+        - new_account_name
+        - new_account_email
       properties:
         parent_account_id:
           title: Parent Account ID
           type: string
-          default: 048808157642
+          default: '048808157642'
         new_account_name:
           title: New Account Name
           type: string
@@ -39,7 +36,7 @@ spec:
       name: Create new AWS account
       action: aws:cloudcontrol:create
       input:
-        values:
-          account_id: ${{ paramaters.parent_account_id }}
-          typeName: "AWS::Organizations::Account"
-          desiredState: '{ "AccountName": "${{parameters.new_account_name}}", "Email": "${{parameters.new_account_email}}" }'
+        account_id: ${{ paramaters.parent_account_id }}
+        region: us-east-1
+        typeName: "AWS::Organizations::Account"
+        desiredState: '{ "AccountName": "${{parameters.new_account_name}}", "Email": "${{parameters.new_account_email}}" }'
