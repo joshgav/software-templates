@@ -1,0 +1,43 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-kubernetes-namespace
+  title: Kubernetes Namespace Template
+  description: Create a new Kubernetes namespace in an existing cluster
+  tags:
+    - namespace
+    - kubernetes
+    - account
+spec:
+  owner: default/joshgavant_gmail.com
+  type: system
+
+  parameters:
+    - title: Provide information on this namespace
+      required:
+        - new_namespace_name
+        - kubernetes_api_url
+        - kubernetes_api_token
+      properties:
+        new_namespace_name:
+          title: New namespace name
+          type: string
+        kubernetes_api_url:
+          title: Kubernetes API URL
+          type: string
+          description: API URL of target cluster
+          default: "https://api.ipi.aws.joshgav.com:6443/"
+        kubernetes_api_token:
+          title: Kubernetes API Token
+          type: string
+          description: Bearer token with namespace create rights
+
+  steps:
+    - id: kubernetes-create-namespace
+      name: Create new Kubernetes namespace
+      action: kubernetes:create-namespace
+      input:
+        namespace: "${{ parameters.new_namespace_name }}"
+        url: "${{ parameters.kubernetes_api_url }}"
+        token: "${{ parameters.kubernetes_api_token }}"
+        skipTLSVerify: true
